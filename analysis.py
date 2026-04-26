@@ -13,19 +13,31 @@ df = df.sort_values("avg_delivery_time", ascending=False)
 print("\n📊 DELIVERY PERFORMANCE REPORT\n")
 print(df)
 
-# 🧠 INSIGHT 1 - HUB MAIS LENTO
+# 🧠 METRICS
 slowest = df.iloc[0]
+fastest = df.iloc[-1]
 avg = df["avg_delivery_time"].mean()
 
-print("\n⚠️ SLOWEST HUB:")
-print(f"Hub ID: {slowest['hub_id']}")
-print(f"Avg delivery time: {slowest['avg_delivery_time']:.2f}")
-
-# 🧠 INSIGHT 2 - ANOMALIA
-if slowest["avg_delivery_time"] > avg * 1.2:
-    print("\n🚨 ALERT: Performance imbalance detected between hubs")
-
-# 🧠 INSIGHT 3 - VISÃO GERAL
 print("\n📈 SYSTEM OVERVIEW:")
 print(f"Average delivery time: {avg:.2f}")
-print(f"Best hub performance gap: {slowest['avg_delivery_time'] - avg:.2f}")
+print(f"Fastest hub: {fastest['hub_id']} ({fastest['avg_delivery_time']:.2f})")
+print(f"Slowest hub: {slowest['hub_id']} ({slowest['avg_delivery_time']:.2f})")
+
+# 🚨 INSIGHT 1 - IMBALANCE DETECTION
+if slowest["avg_delivery_time"] > avg * 1.2:
+    print("\n🚨 ALERT: Significant performance imbalance detected across hubs")
+
+# 📊 INSIGHT 2 - PERFORMANCE GAP
+gap = slowest["avg_delivery_time"] - fastest["avg_delivery_time"]
+
+print("\n📊 PERFORMANCE GAP ANALYSIS")
+print(f"Gap between best and worst hub: {gap:.2f}")
+
+# 🧠 INSIGHT 3 - BUSINESS INTERPRETATION
+print("\n🧠 BUSINESS INSIGHT")
+
+if gap > avg * 0.5:
+    print("⚠️ Operational inconsistency detected")
+    print("👉 Recommendation: investigate routing, staffing or demand distribution")
+else:
+    print("✅ Delivery system is relatively balanced")
