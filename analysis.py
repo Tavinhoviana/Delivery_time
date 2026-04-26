@@ -5,29 +5,27 @@ import pandas as pd
 conn = SqLiteConnectionHandler().connect()
 repo = OrdersRepository(conn)
 
-# 📊 Dados
+# 📊 DATA
 data = repo.get_avg_delivery_time_per_hub()
 df = pd.DataFrame(data, columns=["hub_id", "avg_delivery_time"])
-
 df = df.sort_values("avg_delivery_time", ascending=False)
 
-print("\n📊 Average Delivery Time per Hub:")
+print("\n📊 DELIVERY PERFORMANCE REPORT\n")
 print(df)
 
-
-# 🧠 INSIGHT 1: hub mais lento
-slowest_hub = df.iloc[0]
-
-print("\n⚠️ Slowest Hub Detected:")
-print(f"Hub ID: {slowest_hub['hub_id']}")
-print(f"Avg Delivery Time: {slowest_hub['avg_delivery_time']}")
-
-
-# 🧠 INSIGHT 2: comparação com média
+# 🧠 INSIGHT 1 - HUB MAIS LENTO
+slowest = df.iloc[0]
 avg = df["avg_delivery_time"].mean()
 
-print("\n📈 System Overview:")
-print(f"Overall average delivery time: {avg:.2f}")
+print("\n⚠️ SLOWEST HUB:")
+print(f"Hub ID: {slowest['hub_id']}")
+print(f"Avg delivery time: {slowest['avg_delivery_time']:.2f}")
 
-if slowest_hub["avg_delivery_time"] > avg * 1.2:
-    print("⚠️ Alert: One hub is significantly slower than average")
+# 🧠 INSIGHT 2 - ANOMALIA
+if slowest["avg_delivery_time"] > avg * 1.2:
+    print("\n🚨 ALERT: Performance imbalance detected between hubs")
+
+# 🧠 INSIGHT 3 - VISÃO GERAL
+print("\n📈 SYSTEM OVERVIEW:")
+print(f"Average delivery time: {avg:.2f}")
+print(f"Best hub performance gap: {slowest['avg_delivery_time'] - avg:.2f}")
