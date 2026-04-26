@@ -5,6 +5,15 @@ class HubsRepository:
     def __init__(self, conn: SQLiteConnection) -> None:
         self.__conn = conn
 
+    def find_hub_by_id(self, hub_id: int) -> Optional[Tuple]:
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            "SELECT * FROM hubs WHERE id = ?",
+            (hub_id,)
+        )
+        hub = cursor.fetchone()
+        return hub
+
     def find_hub_by_name(self, hub_name: str) -> Optional[Tuple]:
         cursor = self.__conn.cursor()
         cursor.execute(

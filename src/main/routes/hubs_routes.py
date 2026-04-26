@@ -16,9 +16,9 @@ def create_hub():
 
     return jsonify({"message": "Hub created successfully"}), 201
 
-@hubs_routes_bp.route("/hubs/<name>", methods=["GET"])
-def get_hub_by_name(name):
-    hub = repo.find_hub_by_name(name)
+@hubs_routes_bp.route("/hubs/<int:id>", methods=["GET"])
+def get_hub_by_id(id):
+    hub = repo.find_hub_by_id(id)
 
     if not hub:
         return jsonify({"error": "Hub not found"}), 404
