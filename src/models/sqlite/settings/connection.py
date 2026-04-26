@@ -17,4 +17,4 @@ class SqLiteConnectionHandler:
     def get_connection(self) -> SqLiteConnection:
         return self.__conn
 
-sqlite_connection_handler = SqLiteConnectionHandler()
+db_connection_handler = SqLiteConnectionHandler()

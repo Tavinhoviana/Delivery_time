@@ -20,4 +20,11 @@ def create_rider():
 def list_riders():
     riders = repo.get_all_riders()
 
-    return jsonify(riders)
+    return jsonify([
+        {
+            "id": row[0],
+            "name": row[1],
+            "hub_id": row[2]
+        }
+        for row in riders
+    ])
